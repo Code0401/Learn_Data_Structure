@@ -27,5 +27,23 @@
             @IDE: CLion
 */
 #include <iostream>
-#include <>
+#include <queue>
+
 using namespace std;
+typedef struct tree_node {
+    char data;
+    struct tree *lchild;
+    struct tree *rchild;
+} tree_node, *p_tree;
+
+void create_bintary_tree(**work){
+
+
+}
+
+int main() {
+    p_tree root;
+    create_bintary_tree(&root);
+
+
+}
