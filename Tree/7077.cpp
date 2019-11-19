@@ -32,18 +32,44 @@
 using namespace std;
 typedef struct tree_node {
     char data;
-    struct tree *lchild;
-    struct tree *rchild;
+    struct tree_node *lchild;
+    struct tree_node *rchild;
 } tree_node, *p_tree;
 
-void create_bintary_tree(**work){
+void create_bintary_tree(p_tree &root) {
+    char data;
+    cin >> data;
+    if (data != '@') {
+        root = new tree_node;
+        root->data = data;
+        create_bintary_tree(root->lchild);
+        create_bintary_tree(root->rchild);
+    } else {
+        root = nullptr;
+    }
 
+}
 
+void FloorPrint_QUEUE(p_tree root) {
+    queue<p_tree> work;
+    if (root != nullptr) {
+        work.push(root);
+    }
+    while (!work.empty()) {
+        cout << work.front()->data;
+        if (work.front()->lchild != nullptr) {
+            work.push(work.front()->lchild);
+        }
+        if (work.front()->rchild != nullptr) {
+            work.push(work.front()->rchild);
+        }
+        work.pop();
+    }
 }
 
 int main() {
     p_tree root;
-    create_bintary_tree(&root);
-
+    create_bintary_tree(root);
+    FloorPrint_QUEUE(root);
 
 }
