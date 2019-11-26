@@ -57,7 +57,7 @@ void create_graph(ALGraph *G)
         cin >> G->vertices[i].data;
         G->vertices[i].firstarcnode = nullptr;
     }
-    
+
 }
 
 int main()
