@@ -84,6 +84,7 @@ void bfs(Graph_adj_list *g)
             traversal_status[i] = true;
             cout << "v" << g->adj_list[i].data << " ";
             preparatory.push(i);
+
             while (!preparatory.empty())
             {
                 i = preparatory.front();

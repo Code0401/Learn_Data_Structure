@@ -21,14 +21,14 @@
             佛祖保佑       永无BUG
             
             @Author: Tao
-            @Time: 2019/11/26 9:12
+            @Time: 2019/11/27 18:01
             @Project_NAME：Learn_Data_Structure
-            @FileName: 7039.c
+            @FileName: 7042.c
             @IDE: CLion
- */
+*/
 #include <iostream>
 #include <cstdio>
-#include <queue>
+#include <stack>
 
 using namespace std;
 typedef struct edge_node
@@ -65,51 +65,53 @@ void create_graph(Graph_adj_list *g)
         temp_edge_node->next = g->adj_list[m].first_edge;
         g->adj_list[m].first_edge = temp_edge_node;
 
-//        temp_edge_node = new edge_node;
-//        temp_edge_node->adjvex = m;
-//        temp_edge_node->next = g->adj_list[n].first_edge;
-//        g->adj_list[n].first_edge = temp_edge_node;
+        temp_edge_node = new edge_node;
+        temp_edge_node->adjvex = m;
+        temp_edge_node->next = g->adj_list[n].first_edge;
+        g->adj_list[n].first_edge = temp_edge_node;
     }
 }
 
-bool tracersal_status[20] = {false};
-
-void dfs(Graph_adj_list *g, int i)
+void depth_traversal(Graph_adj_list *g)
 {
+    bool tracersal_status[20] = {false};
+    stack<int> preparatory;
     edge_node *work;
-    tracersal_status[i] = true;
-    cout << g->adj_list[i].data << " ";
-    work = g->adj_list[i].first_edge;
-    while (work)
-    {
-        if (!tracersal_status[work->adjvex])
-        {
-            dfs(g, work->adjvex);
-        }
-        work = work->next;
-    }
-}
 
-void show_graph_adj_list(Graph_adj_list *g)
-{
-    edge_node *work;
-    for (int i = 1; i <= g->vertexes_num; i++)
-    {
-        work = g->adj_list[i].first_edge;
-        cout << i << ":";
-        while (work)
-        {
-            cout << work->adjvex << " ";
-            work = work->next;
-        }
-        cout << endl;
-    }
+//    for (int i = 1; i <= g->vertexes_num; i++)
+//    {
+//        if (!tracersal_status[i])
+//        {
+//            tracersal_status[i] = true;
+//            cout << "v" << g->adj_list[i].data;
+//            preparatory.push(i);
+//            work = g->adj_list[i].first_edge;
+//            while (!preparatory.empty())
+//            {
+//                while (work)
+//                {
+//                    if (!tracersal_status[work->adjvex])
+//                    {
+//                        tracersal_status[work->adjvex] = true;
+//                        cout << "v" << g->adj_list[work->adjvex].data;
+//                        preparatory.push(work->adjvex);
+//                        work = g->adj_list[work->adjvex].first_edge;
+//                    } else
+//                    {
+//                        work = work->next;
+//                    }
+//                    work = g->adj_list[preparatory.top()].first_edge;
+//                    preparatory.pop();
+//                }
+//            }
+//        }
+//    }
+
 }
 
 int main()
 {
-    auto *new_graph = new Graph_adj_list;
-    create_graph(new_graph);
-    show_graph_adj_list(new_graph);
-    dfs(new_graph, 1);
+    auto new_grapgh = new Graph_adj_list;
+    create_graph(new_grapgh);
+    depth_traversal(new_grapgh);
 }
