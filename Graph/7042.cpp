@@ -35,12 +35,12 @@ typedef struct edge_node
 {
     int adjvex;
     struct edge_node *next;
-} edge_node;
+} edge_node, *p_edge_node;
 typedef struct vertex_node
 {
     int data;
     edge_node *first_edge;
-} vertex_node;
+} vertex_node, p_vertex_node;
 typedef struct Graph_adj_list
 {
     vertex_node adj_list[20];
@@ -75,37 +75,24 @@ void create_graph(Graph_adj_list *g)
 void depth_traversal(Graph_adj_list *g)
 {
     bool tracersal_status[20] = {false};
-    stack<int> preparatory;
-    edge_node *work;
+    stack<p_vertex_node> preparatory;
+    p_vertex_node work;
+    preparatory.push(g->adj_list[1]);
+    tracersal_status[1] = true;
+    while (!preparatory.empty())
+    {
+        work = preparatory.top();
+        cout << "v" << work.data << " ";
+        auto i = work.next;
+        while (i)
+        {
+            if (!tracersal_status[i.data])
+            {
+                preparatory.push(work->next);
 
-//    for (int i = 1; i <= g->vertexes_num; i++)
-//    {
-//        if (!tracersal_status[i])
-//        {
-//            tracersal_status[i] = true;
-//            cout << "v" << g->adj_list[i].data;
-//            preparatory.push(i);
-//            work = g->adj_list[i].first_edge;
-//            while (!preparatory.empty())
-//            {
-//                while (work)
-//                {
-//                    if (!tracersal_status[work->adjvex])
-//                    {
-//                        tracersal_status[work->adjvex] = true;
-//                        cout << "v" << g->adj_list[work->adjvex].data;
-//                        preparatory.push(work->adjvex);
-//                        work = g->adj_list[work->adjvex].first_edge;
-//                    } else
-//                    {
-//                        work = work->next;
-//                    }
-//                    work = g->adj_list[preparatory.top()].first_edge;
-//                    preparatory.pop();
-//                }
-//            }
-//        }
-//    }
+            }
+        }
+    }
 
 }
 

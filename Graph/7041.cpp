@@ -28,6 +28,7 @@
  */
 #include <iostream>
 #include <cstdio>
+#include <stack>
 
 using namespace std;
 
@@ -46,6 +47,21 @@ typedef struct Graph_adj_list
     vertex_node adj_list[20];
     int vertexes_num, edges_num;
 } Graph_adj_list;
+int in_degree[20] = {0};
+
+void count_in_degree(Graph_adj_list *G)
+{
+    edge_node *work;
+    for (int i = 1; i <= G->vertexes_num; i++)
+    {
+        work = G->adj_list[i].first_edge;
+        while (work)
+        {
+            in_degree[work->adjvex]++;
+            work = work->next;
+        }
+    }
+}
 
 void create_graph(Graph_adj_list *g)
 {
@@ -67,8 +83,43 @@ void create_graph(Graph_adj_list *g)
     }
 }
 
+void topological_sort(Graph_adj_list *g)
+{
+    stack<int> stack;
+    int j;
+    edge_node *work;
+    auto count = 0;
+    for (int i = 1; i <= g->vertexes_num; i++)
+    {
+        if (in_degree[i] == 0)
+        {
+            stack.push(i);
+        }
+    }
+    while (!stack.empty())
+    {
+        auto stack_top_node = stack.top();
+        stack.pop();
+        cout << "v" << g->adj_list[stack_top_node].data << " ";
+        count++;
+        work = g->adj_list[stack_top_node].first_edge;
+        while (work)
+        {
+            j = work->adjvex;
+            --in_degree[j];
+            if (in_degree[j] == 0)
+            {
+                stack.push(j);
+            }
+            work = work->next;
+        }
+    }
+}
+
 int main()
 {
-    auto new_graph=new Graph_adj_list ;
+    auto new_graph = new Graph_adj_list;
     create_graph(new_graph);
+    count_in_degree(new_graph);
+    topological_sort(new_graph);
 }
