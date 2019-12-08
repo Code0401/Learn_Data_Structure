@@ -19,7 +19,7 @@
                    `=---='
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
             佛祖保佑       永无BUG
-            
+
             @Author: Tao
             @Time: 2019/12/2 15:54
             @Project_NAME：Learn_Data_Structure
@@ -30,8 +30,6 @@
 #include <cmath>
 
 using namespace std;
-//#define empty 0
-//#define filled 1
 typedef struct Hash_Table_Node
 {
     int data;
@@ -77,8 +75,8 @@ int find_seed(int length)
 
 int find_hash_key(int data, int seed, Hash_Table hash_table[])
 {
-    int initial_position = data % seed;
-    int new_position;
+    int initial_position = data % seed;;
+    int increment = 1;
     if (hash_table[initial_position].flag == 0)
     {
         return initial_position;
@@ -86,12 +84,20 @@ int find_hash_key(int data, int seed, Hash_Table hash_table[])
     {
         while (hash_table[initial_position].flag == 1)
         {
-            initial_position = (initial_position + 1) % seed;
+            initial_position = (initial_position + increment) % seed;
+            increment++;
         }
         return initial_position;
     }
 }
 
+void print_hash_table(Hash_Table hash_table[], int i)
+{
+    if (hash_table[i].flag)
+    {
+        cout << hash_table[i].data << " ";
+    }
+}
 
 int main()
 {
@@ -101,12 +107,20 @@ int main()
     cin >> length;
     int data = -1;
     auto seed = find_seed(length);
-    while (data != 0)
+    for (int i = 0; i < length; i++)
     {
         cin >> data;
+        if (data == 0)
+        {
+            break;
+        }
         position = find_hash_key(data, seed, new_hash_table);
         new_hash_table[position].flag = 1;
         new_hash_table[position].data = data;
+    }
+    for (int i = 0; i <= length; i++)
+    {
+        print_hash_table(new_hash_table, i);
     }
     return 0;
 }

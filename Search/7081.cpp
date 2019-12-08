@@ -36,40 +36,34 @@ typedef struct bintary_tree_node
     struct bintary_tree_node *left_child, *right_child;
 } bintary_tree_node, *pointer_to_binary_tree_node;
 
-bintary_tree_node *search_BST(bintary_tree_node *BST, bintary_tree_node *forward, int target)
+bool search_BST(bintary_tree_node BST, pointer_to_binary_tree_node forward, int target,
+                pointer_to_binary_tree_node &Parent)
 {
     if (!BST)
     {
-        return forward;
+        Parent = forward;
+        return true;
     } else if (target == BST->data)
     {
-        return BST;
+        Parent = BST;
+        return false;
     } else if (target > BST->data)
     {
-        search_BST(BST->right_child, BST, target);
+        search_BST(BST->right_child, BST, target, Parent);
     } else if (target < BST->data)
     {
-        search_BST(BST->left_child, BST, target);
+        search_BST(BST->left_child, BST, target, Parent);
     }
 
 }
 
-bintary_tree_node *insert_BST(bintary_tree_node **BST, int data)
+bool insert_BST(bintary_tree_node &BST, int data)
 {
-    bintary_tree_node *to_be_inserted, *new_node;
-    new_node = new bintary_tree_node;
-    new_node->data = data;
-    new_node->left_child = new_node->right_child = nullptr;
-    to_be_inserted = search_BST(*BST, nullptr, data);
-    if (!to_be_inserted)
+    bintary_tree_node Parent;
+
+    if (search_BST(BST, nullptr, data, Parent))
     {
-        *BST = new_node;
-    } else if (data < new_node->data)
-    {
-        to_be_inserted->left_child = new_node;
-    } else
-    {
-        to_be_inserted->right_child = new_node;
+
     }
 }
 
@@ -80,7 +74,7 @@ int main()
     while (data != 0)
     {
         cin >> data;
-        insert_BST(&BST, data);
+        insert_BST(BST, data);
     }
     int search_target;
     cin >> search_target;
